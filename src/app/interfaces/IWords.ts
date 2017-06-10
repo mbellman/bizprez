@@ -1,17 +1,16 @@
 interface IWord {
-  word: string
+  word: string;
 }
 
 export interface INoun extends IWord {
-  plural: string,
-  possessive: string
+  plural: string;
+  possessive: string;
 }
 
 
 export interface IVerb extends IWord {
   tenses: {
-    past: string,
-    continuous: string,
-    future: string
+    past: string;
+    continuous: string;
   }
 }
