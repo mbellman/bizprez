@@ -1,5 +1,8 @@
+import SubjectCreator from 'app/creators/SubjectCreator';
+import SlideCreator from 'app/creators/SlideCreator';
+
 export default class Presentation {
-	public constructor () {
+  public constructor () {
 		console.log('Main!');
 	}
 

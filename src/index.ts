@@ -1,4 +1,4 @@
-import Presentation from './app/Presentation';
+import Presentation from 'app/Presentation';
 
 const presentation: Presentation = new Presentation();
 

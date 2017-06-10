@@ -5,6 +5,7 @@ module.exports = {
 		filename: "app.js"
 	},
 	resolve: {
+    modules: ["src"],
 		extensions: [".ts"]
 	},
 	module: {
