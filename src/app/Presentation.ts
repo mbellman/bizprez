@@ -1,13 +1,23 @@
-import SubjectModelCreator from 'app/creators/SubjectModelCreator';
 import SlideCreator from 'app/creators/SlideCreator';
-import Slide from 'app/slider/Slide';
-import { ISubjectModel } from 'app/interfaces/ISubjectModel';
+import SlideShowView from 'app/views/SlideShowView';
+import { U } from 'app/Utilities';
+import { Slide } from 'app/slider/Slide';
+import { ISubjectModel, SubjectModelCreator } from 'app/creators/SubjectModelCreator';
 
 export default class Presentation {
+  private _subjectModel: ISubjectModel;
   private _slides: Array<Slide> = [];
 
   public constructor () {
+    this._subjectModel = new SubjectModelCreator().create();
+
     this._createSlides(10);
+
+    new SlideShowView()
+      .attach('.presentation')
+      .update({
+        slides: this._slides
+      });
 	}
 
 	public begin (): void {
@@ -19,11 +29,8 @@ export default class Presentation {
   }
 
   private _createSlides (count: number): void {
-    const subjectModel: ISubjectModel = new SubjectModelCreator().create();
-    const slideCreator: SlideCreator = new SlideCreator(subjectModel);
+    const slideCreator: SlideCreator = new SlideCreator(this._subjectModel);
 
-    for (let i = 0; i < count; i++) {
-      this._slides.push(slideCreator.create());
-    }
+    U.loop(count, () => this._slides.push(slideCreator.create()));
   }
 }

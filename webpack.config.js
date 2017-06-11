@@ -10,7 +10,16 @@ module.exports = {
 	},
 	module: {
 		"loaders": [
-			{ test: /\.ts/, loader: "ts-loader" }
+			{ test: /\.ts/, loader: "ts-loader" },
+      {
+        test: /\.dust$/,
+        use: {
+          loader: "dust-loader",
+          options: {
+            rootDir: 'src'
+          }
+        }
+      }
 		]
 	}
 };
