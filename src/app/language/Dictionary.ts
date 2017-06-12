@@ -1,38 +1,35 @@
+import { U } from 'app/Utilities';
 import { IAssociations, INoun, IVerb, Definition, Definitions } from 'app/language/Definitions';
 import { Words } from 'app/language/Words';
 
-export enum WordType {
-  NOUN,
-  VERB
-}
+export default class Dictionary {
+  public static getDefinition (word: Words.Types.All): Definition {
+    return (
+      Definitions.Verbs[word] ||
+      Definitions.Adjectives[word] ||
+      Definitions.Nouns[word]
+    );
+  }
 
-export namespace Dictionary {
-  export function getWordType (word: string): WordType {
-    if (word in Definitions.Nouns) {
-      return WordType.NOUN;
-    } else if (word in Definitions.Verbs) {
-      return WordType.VERB;
+  public static getWordType (word: Words.Types.All): Words.Categories {
+    if (word in Definitions.Verbs) {
+      return Words.Categories.VERB;
+    } else if (word in Definitions.Adjectives) {
+      return Words.Categories.ADJECTIVE;
+    } else if (word in Definitions.Nouns) {
+      return Words.Categories.NOUN;
     }
   }
 
-  export function getDefinition (word: string): Definition {
-    switch (Dictionary.getWordType(word)) {
-      case WordType.NOUN:
-        return Definitions.Nouns[word];
-      case WordType.VERB:
-        return Definitions.Verbs[word];
-    }
+  public static getAssociatedWords (word: Words.Types.All): Array<Words.Types.All> {
+    const associations: IAssociations = Dictionary.getDefinition(word).associations || {};
+
+    return [].concat(associations.nouns || [], associations.verbs || []);
   }
 
-  export function getAssociations (word: string): IAssociations {
-    return Dictionary.getDefinition(word).associations || {};
-  }
+  public static getRandomWord (): Words.Types.All {
+    const wordLists = [Words.Nouns, Words.Adjectives, Words.Verbs];
 
-  export function getAssociatedNouns (word: string): Array<string> {
-    return Dictionary.getAssociations(word).nouns || [];
-  }
-
-  export function getAssociatedVerbs (word: string): Array<string> {
-    return Dictionary.getAssociations(word).verbs || [];
+    return <Words.Types.All>U.randomFromEnum(U.randomFromArray(wordLists));
   }
 }

@@ -2,14 +2,16 @@ import SlideCreator from 'app/creators/SlideCreator';
 import SlideShowView from 'app/views/SlideShowView';
 import { U } from 'app/Utilities';
 import { Slide } from 'app/slider/Slide';
-import { ISubjectModel, SubjectModelCreator } from 'app/creators/SubjectModelCreator';
+import { IPresentationModel, PresentationModelCreator } from 'app/creators/PresentationModelCreator';
 
 export default class Presentation {
-  private _subjectModel: ISubjectModel;
+  private _presentationModel: IPresentationModel;
   private _slides: Array<Slide> = [];
 
   public constructor () {
-    this._subjectModel = new SubjectModelCreator().create();
+    this._presentationModel = new PresentationModelCreator().create();
+
+    console.log(this._presentationModel);
 
     this._createSlides(10);
 
@@ -29,7 +31,7 @@ export default class Presentation {
   }
 
   private _createSlides (count: number): void {
-    const slideCreator: SlideCreator = new SlideCreator(this._subjectModel);
+    const slideCreator: SlideCreator = new SlideCreator(this._presentationModel);
 
     U.loop(count, () => this._slides.push(slideCreator.create()));
   }

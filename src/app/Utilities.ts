@@ -11,21 +11,29 @@ export namespace U {
     return keys[random(0, keys.length - 1)];
   }
 
-  export function randomProp (object: IMap<any>): any {
+  export function randomProp<T> (object: IMap<T>): T {
     return object[U.randomKey(object)];
   }
 
-  export function randomFromEnum (e: IEnum): number {
+  export function randomFromEnum<T> (e: IEnum<T>): number | T {
     const key: string = U.randomKey(e);
-    const number: number = Number(key);
+    const keyAsNumber: number = Number(key);
 
-    return isNaN(number) ? Number(e[<any>key]) : number;
+    if (isNaN(keyAsNumber)) {
+      return e[<any>key];
+    }
+
+    return keyAsNumber;
   }
 
   export function randomFromArray<T> (array: Array<T>): T {
     const index: number = U.random(0, array.length - 1);
 
     return array[index];
+  }
+
+  export function chance (probability: number): boolean {
+    return Math.random() < probability;
   }
 
   export function loop (times: number, handler: () => any): void {

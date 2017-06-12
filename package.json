@@ -7,7 +7,7 @@
 		"gulp-rename": "^1.2.2",
 		"gulp-uglify": "^3.0.0",
 		"ts-loader": "^2.1.0",
-		"typescript": "^2.3.4",
+		"typescript": "next",
 		"uglify-js": "^3.0.15",
 		"webpack": "^2.6.1"
 	}

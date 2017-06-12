@@ -2,7 +2,7 @@ import BulletPointSlideView from 'app/views/BulletPointSlideView';
 import { U } from 'app/Utilities';
 import { BulletPointSlideModelCreator } from 'app/creators/BulletPointSlideModelCreator';
 import { ICreator } from 'app/creators/ICreator';
-import { ISubjectModel } from 'app/creators/SubjectModelCreator';
+import { IPresentationModel } from 'app/creators/PresentationModelCreator';
 import { ISlideSettings, Slide } from 'app/slider/Slide';
 import { IBulletPointSlideModel } from 'app/views/BulletPointSlideView';
 
@@ -11,7 +11,7 @@ enum Slides {
 }
 
 export default class SlideCreator implements ICreator<Slide> {
-  public constructor (private _subjectModel: ISubjectModel) {}
+  public constructor (private _presentationModel: IPresentationModel) {}
 
   public create (): Slide {
     const slideSettings: ISlideSettings = this._getSlideSettings();
@@ -20,7 +20,7 @@ export default class SlideCreator implements ICreator<Slide> {
   }
 
   private _getSlideSettings (): ISlideSettings {
-    const slideType: Slides = U.randomFromEnum(Slides);
+    const slideType: Slides = <Slides>U.randomFromEnum(Slides);
 
     switch (slideType) {
       case Slides.BULLET_POINT_SLIDE:
@@ -29,7 +29,7 @@ export default class SlideCreator implements ICreator<Slide> {
   }
 
   private _getBulletPointSlideSettings (): ISlideSettings {
-    const modelCreator: BulletPointSlideModelCreator = new BulletPointSlideModelCreator(this._subjectModel);
+    const modelCreator: BulletPointSlideModelCreator = new BulletPointSlideModelCreator(this._presentationModel);
     const model: IBulletPointSlideModel = modelCreator.create();
 
     return {
